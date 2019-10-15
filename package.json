@@ -1,0 +1,35 @@
+{
+  "name": "tradfri-control-panel",
+  "version": "0.0.1",
+  "description": "A control panel for IKEA Trådfri lightbulbs",
+  "main": "main.js",
+  "repository": "https://github.com/franzwilhelm/tradfri-control-panel",
+  "author": "franzwilhelm",
+  "license": "gpl-3.0",
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "electron": "^6.0.12",
+    "electron-builder": "^21.2.0",
+    "eslint": "^6.5.1",
+    "eslint-plugin-svelte3": "^2.7.3",
+    "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.24.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-svelte": "^5.1.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "sirv-cli": "^0.4.0",
+    "svelte": "^3.12.1"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "autobuild": "rollup -c -w",
+    "dev": "concurrently \"run-p start:dev autobuild\" \"electron .\"",
+    "start": "sirv public",
+    "start:dev": "sirv public --dev",
+    "lint": "eslint --ext .js,.svelte src"
+  }
+}
