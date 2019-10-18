@@ -7,21 +7,29 @@
   "author": "franzwilhelm",
   "license": "gpl-3.0",
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "7.6.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "concurrently": "^5.0.0",
-    "electron": "^6.0.12",
+    "electron": "^3.0.0",
     "electron-builder": "^21.2.0",
     "eslint": "^6.5.1",
     "eslint-plugin-svelte3": "^2.7.3",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "rollup": "^1.24.0",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-livereload": "^1.0.4",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-svelte": "^5.1.0",
     "rollup-plugin-terser": "^5.1.2",
-    "sirv-cli": "^0.4.0",
+    "sirv-cli": "^0.4.4",
     "svelte": "^3.12.1"
   },
   "scripts": {
@@ -31,5 +39,9 @@
     "start": "sirv public",
     "start:dev": "sirv public --dev",
     "lint": "eslint --ext .js,.svelte src"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.6.3",
+    "node-tradfri-client": "^2.0.1"
   }
 }

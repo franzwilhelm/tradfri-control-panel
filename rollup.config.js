@@ -2,8 +2,10 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
+import json from 'rollup-plugin-json';
 import { terser } from 'rollup-plugin-terser';
 import sass from 'node-sass';
+import babel from 'rollup-plugin-babel';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -13,7 +15,7 @@ export default {
 		sourcemap: false,
 		format: 'iife',
 		name: 'app',
-		file: 'public/bundle.js'
+		file: 'public/bundle.js',
 	},
 	plugins: [
 		svelte({
@@ -52,8 +54,13 @@ export default {
 		// some cases you'll need additional configuration —
 		// consult the documentation for details:
 		// https://github.com/rollup/rollup-plugin-commonjs
-		resolve(),
+		resolve({
+			browser: true,
+			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
+		}),
+		babel({ include: ['src/**/*'], runtimeHelpers: true }),
 		commonjs(),
+		json(),
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
 		!production && livereload('public'),
@@ -62,6 +69,16 @@ export default {
 		// instead of npm run dev), minify
 		production && terser(),
 	],
+	// Disable circular dependency warnings from node-tradfri-client
+	onwarn(warning, rollupWarn) {
+		if (
+			!warning.importer
+			|| !warning.importer.startsWith('node_modules/node-tradfri-client') 
+			|| warning.code !== 'CIRCULAR_DEPENDENCY'
+		) {
+			rollupWarn(warning);
+		}
+	},
 	watch: {
 		clearScreen: false
 	}
