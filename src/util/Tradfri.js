@@ -25,9 +25,6 @@ class Tradfri {
 
 	async discoverGateway() {
 		this.gateway = await this.connector.discoverGateway();
-		if (!this.gateway.addresses.length) {
-			throw new Error('Failed to find your tradfri gateway');
-		}
 	}
 
 	// initialize discovers the gateway, and automatically connects if credentials are stored
@@ -37,7 +34,7 @@ class Tradfri {
 		this.client = new this.connector.TradfriClient(newGatewayAddress);
 		
 		if (this.gatewayAddress === newGatewayAddress) {
-			this.connectWithLocalstorage();
+			await this.connectWithLocalstorage();
 		} else {
 			this.gatewayAddress = newGatewayAddress;
 			localStorage.setItem('gatewayAddress', this.gatewayAddress);
@@ -47,7 +44,7 @@ class Tradfri {
 	async connectWithLocalstorage() {
 		const identity = localStorage.getItem('tradfriIdentity');
 		const psk = localStorage.getItem('tradfriPSK');
-		this.connect(identity, psk);
+		await this.connect(identity, psk);
 	}
 
 	async authenticateAndConnect(securityCode) {

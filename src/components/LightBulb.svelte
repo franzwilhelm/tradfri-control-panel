@@ -2,18 +2,7 @@
 import ToggleSwitch from './ToggleSwitch.svelte';
 
 export let bulb;
-
 $: light = bulb.lightList.length ? bulb.lightList[0] : null;
-$: wrapperClass = function () {
-    const alive = bulb.alive ? 'lightbulb' : 'lightbulb lightbulb--disabled';
-    if (light.colorTemperature > 70) {
-        return alive + ' lightbulb--orange';
-    } else if (light.colorTemperature > 40) {
-        return alive + ' lightbulb--yellow';
-    }
-    return alive + ' lightbulb--white';
-}()
-$: lightbulbIconClass = light.onOff ? 'fas fa-lightbulb' : 'far fa-lightbulb';
 
 async function toggleLight() {
     if (light) {
@@ -118,7 +107,13 @@ $color-black: #000000;
 }
 </style>
 
-<div class={wrapperClass}>
+<div
+    class="lightbulb" 
+    class:lightbulb-disabled="{!bulb.alive}"
+    class:lightbulb-orange="{light.colorTemperature > 70}"
+    class:lightbulb-yellow="{light.colorTemperature > 40 && light.colorTemperature < 70}"
+    class:lightbulb-white="{light.colorTemperature < 40}"
+>
     <ToggleSwitch bind:checked={light.onOff} on:click={toggleLight} />
     <div class="lightbulb__title">
         <h3>{bulb.name}</h3>
@@ -126,7 +121,9 @@ $color-black: #000000;
 
     <div class="lightbulb__icon">
         <i
-            class={lightbulbIconClass}
+            class="fa-lightbulb"
+            class:fas="{light.onOff}"
+            class:far="{!light.onOff}"
             title={light._modelName}
             on:click={toggleLight}
         />

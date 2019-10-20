@@ -1,12 +1,14 @@
 <script>
-import LightBulb from './components/LightBulb.svelte';
 import Tradfri from './util/Tradfri.js';
+import LightBulb from './components/LightBulb.svelte';
+import Loader from './components/Loader.svelte';
+import { fade } from 'svelte/transition';
 
 const tradfri = new Tradfri();
 let securityCode = '';
 $: lightbulbs = {};
 $: isConnected = false;
-
+$: shouldShowLoader = false;
 tradfri.onConnect(() => isConnected = true)
 tradfri.onDeviceUpdated(device => {
 	console.log(device);
@@ -19,10 +21,9 @@ function reload() {
 	window.location.reload()
 }
 
-function disconnect() {
-	tradfri.disconnect()
-	reload()
-}
+// Don't show loader before 500ms has passed to avoid awkward loader flash,
+// as the gateway usually answers quite fast when connected
+setTimeout(() => shouldShowLoader = true, 500);
 </script>
 
 <style lang="scss">
@@ -53,6 +54,7 @@ function disconnect() {
     vertical-align: middle;
     line-height: 1;
 	border-radius: 3px;
+	margin: 5px;
 }
 .form-field {
 	padding: 1rem;
@@ -71,16 +73,21 @@ function disconnect() {
 p {
 	margin-top: 0.5rem;
 }
+.loader-caption {
+	font-size: 12px;
+}
 </style>
 
 <div class="page">
 	<div class="content content--primary">
 		{#await tradfri.initializeClient()}
-			<p>Finding your gateway...</p>
+			{#if shouldShowLoader}
+				<Loader />
+				<p class="loader-caption">Finding your gateway</p>
+			{/if}
 		{:then _}
 			{#if isConnected}
-				<!-- <button class="button" on:click={disconnect}>Disconnect</button> -->
-				<div class="lightbulb-wrapper">
+				<div in:fade="{{duration:1500}}" class="lightbulb-wrapper">
 					{#each Object.values(lightbulbs) as bulb (bulb.instanceId)}
 						<LightBulb bulb={bulb} />
 					{/each}
@@ -97,13 +104,16 @@ p {
 					>
 				</div>
 				{isConnected}
-				<button class="button" on:click={() => tradfri.authenticateAndConnect(securityCode)}>
+				<button
+					class="button"
+					on:click={() => tradfri.authenticateAndConnect(securityCode)}
+				>
 					Connect
 				</button>
 			{/if}
 		{:catch error}
 			<i class="fas fa-2x fa-plug" />
-			<p class="error">Failed to find your tradfri gateway: {error}</p>
+			<p class="error">Failed to find your tradfri gateway</p>
 			<button class="button" on:click={reload}>Try again</button>
 		{/await}
 	</div>
