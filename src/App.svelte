@@ -94,6 +94,7 @@ p {
 			{:else}
 				<i class="fas fa-2x fa-check" />
 				<p>Gateway detected</p>
+        <small>{tradfri.gatewayAddress}</small>
 				<div class="form-field">
 					<input
 						type="text"
@@ -102,7 +103,6 @@ p {
 						placeholder="Security code"
 					>
 				</div>
-				{isConnected}
 				<button
 					class="button"
 					on:click={() => tradfri.authenticateAndConnect(securityCode)}

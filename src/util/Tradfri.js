@@ -27,24 +27,26 @@ class Tradfri {
 		this.gateway = await this.connector.discoverGateway();
 	}
 
-	// initialize discovers the gateway, and automatically connects if credentials are stored
+	// initializeClient discovers the gateway, and automatically connects if credentials are stored
 	async initializeClient() {
-		await this.discoverGateway();
-		const newGatewayAddress = this.gateway.addresses[0];
+    await this.discoverGateway();
+    const newGatewayAddress = this.gateway.addresses[0];
 		this.client = new this.connector.TradfriClient(newGatewayAddress);
-		
+    
 		if (this.gatewayAddress === newGatewayAddress) {
 			await this.connectWithLocalstorage();
 		} else {
 			this.gatewayAddress = newGatewayAddress;
 			localStorage.setItem('gatewayAddress', this.gatewayAddress);
-		}
+    }
 	}
 
 	async connectWithLocalstorage() {
 		const identity = localStorage.getItem('tradfriIdentity');
-		const psk = localStorage.getItem('tradfriPSK');
-		await this.connect(identity, psk);
+    const psk = localStorage.getItem('tradfriPSK');
+    if (identity && psk) {
+		  await this.connect(identity, psk);
+    }
 	}
 
 	async authenticateAndConnect(securityCode) {
