@@ -32,7 +32,7 @@ setTimeout(() => shouldShowLoader = true, 500);
 }
 .page {
     height: 100vh;
-	background: rgb(244, 244, 244);
+	background: rgb(240, 240, 240);
 }
 .content {
 	position: absolute;
@@ -41,8 +41,7 @@ setTimeout(() => shouldShowLoader = true, 500);
 	left: 0;
 	right: 0;
 	margin: 0 auto;
-	-ms-transform: translateY(-50%);
-	 transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 .button {
 	display: inline-block;
