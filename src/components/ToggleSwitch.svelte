@@ -7,8 +7,7 @@ const onclick = () => dispatch('click');
 </script>
 
 <style lang="scss">
-$color-checked: rgb(21, 21, 21);
-$color-unchecked: rgb(145, 145, 145);
+@import './styles/variables.scss';
 
 /* The switch - the box around the slider */
 .switch {
@@ -34,8 +33,7 @@ $color-unchecked: rgb(145, 145, 145);
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: $color-unchecked;
-    -webkit-transition: .4s;
+    background-color: $color-gray;
     transition: .4s;
 
     &:before {
@@ -46,23 +44,20 @@ $color-unchecked: rgb(145, 145, 145);
         width: 20px;
         left: 2px;
         bottom: 2px;
-        background-color: white;
-        -webkit-transition: .4s;
+        background-color: $color-white;
         transition: .4s;
     }
 }
 
 input:checked + .slider {
-    background-color: $color-checked;
+    background-color: $color-dark;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px $color-checked;
+    box-shadow: 0 0 1px $color-dark;
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(16px);
-    -ms-transform: translateX(16px);
     transform: translateX(16px);
 }
 </style>

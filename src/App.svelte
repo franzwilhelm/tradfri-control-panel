@@ -1,14 +1,15 @@
 <script>
-import Tradfri from './util/Tradfri.js';
+import Tradfri from './Tradfri.js';
 import LightBulb from './components/LightBulb.svelte';
 import Loader from './components/Loader.svelte';
 import { fade } from 'svelte/transition';
 
-const tradfri = new Tradfri();
 let securityCode = '';
 $: lightbulbs = {};
 $: isConnected = false;
 $: shouldShowLoader = false;
+
+const tradfri = new Tradfri();
 tradfri.onConnect(() => isConnected = true)
 tradfri.onDeviceUpdated(device => {
 	console.log(device);
@@ -27,12 +28,14 @@ setTimeout(() => shouldShowLoader = true, 500);
 </script>
 
 <style lang="scss">
+@import './styles/variables.scss';
+
 .error {
-	color: red;
+	color: $color-negative;
 }
 .page {
     height: 100vh;
-	background: rgb(240, 240, 240);
+	background: darken($color-white, 5%);
 }
 .content {
 	position: absolute;
@@ -46,8 +49,8 @@ setTimeout(() => shouldShowLoader = true, 500);
 .button {
 	display: inline-block;
     cursor: pointer;
-    background-color:white;
-	color: black;
+    background-color: $color-white;
+	color: $color-dark;
     font-weight: 700;
     padding: 0.75rem 1rem;
     vertical-align: middle;
@@ -57,7 +60,7 @@ setTimeout(() => shouldShowLoader = true, 500);
 }
 .form-field {
 	padding: 1rem;
-	input {
+	input{
 		padding: 0.25rem;
 	}
 }
@@ -94,7 +97,7 @@ p {
 			{:else}
 				<i class="fas fa-2x fa-check" />
 				<p>Gateway detected</p>
-        <small>{tradfri.gatewayAddress}</small>
+      			<small>{tradfri.gatewayAddress}</small>
 				<div class="form-field">
 					<input
 						type="text"

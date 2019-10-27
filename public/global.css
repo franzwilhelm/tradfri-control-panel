@@ -1,6 +1,17 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Abril Fatface', cursive;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+    color: #414141;
+}
+
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    user-select: none;
+    cursor: default;
+}
+input, button, textarea, :focus {
+    outline: none;
 }

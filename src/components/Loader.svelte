@@ -1,4 +1,5 @@
 <style lang="scss">
+@import '../styles/variables.scss';
 @keyframes ripple {
     0% {
         top: 96px;
@@ -38,7 +39,7 @@
         animation: ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
         animation-delay: 0.2s;
         &:nth-child(2) {
-            border-color: black;
+            border-color: $color-dark;
             animation-delay: 1s;
         }
     }
